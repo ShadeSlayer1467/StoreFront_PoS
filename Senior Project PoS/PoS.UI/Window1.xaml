@@ -68,9 +68,9 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <GroupBox Header="Customer Info" Grid.Column="0" Margin="10,5,60,5" BorderBrush="Black"  BorderThickness="1">
-                <TextBox Text="Address" Height="100" BorderBrush="Black"  BorderThickness="1"/>
+                <TextBox Text="123 Customer Ln" Height="130" BorderBrush="Black"  BorderThickness="1"/>
             </GroupBox>
-            <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1" Height="30" VerticalAlignment="Top" Margin="0,15,0,0">
+            <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1" Height="30" VerticalAlignment="Top" Margin="0,15,30,30">
                 <!-- Phone and Fax Section -->
                 <Grid>
                     <Grid.ColumnDefinitions>
