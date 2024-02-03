@@ -6,49 +6,186 @@
         xmlns:vm="clr-namespace:PoS.UI.ViewModel"
         xmlns:local="clr-namespace:PoS.UI"
         mc:Ignorable="d"
-        Title="MainWindow" Width="800" Height="450" >
+        Title="MainWindow" Width="1280" Height="960" >
     <Window.DataContext>
         <vm:InvoiceViewModel/>
     </Window.DataContext>
 
-    <Grid Margin="10">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+        <Menu Grid.Row="0">
+            <MenuItem Header="Other Functions"/>
+            <MenuItem Header="LogOut"/>
+            <MenuItem Header="Catalog"/>
+            <MenuItem Header="Help"/>
+        </Menu>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <!-- Employee and Customer Section -->
+            <Border Margin="10" BorderBrush="Black" BorderThickness="1">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Label Content="Employee" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right"/>
+                    <Label Content="Customer" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right"/>
+                    <Label Content="SalesPerson" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right"/>
 
-        <StackPanel Grid.Row="0" Margin="5">
-            <TextBox Text="{Binding Invoice.InvoiceNumber, UpdateSourceTrigger=PropertyChanged}" ToolTip="Invoice Number" Margin="0,0,0,5"/>
-            <Grid>
+                    <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1">
+                        <TextBox IsEnabled="False" Text="6786" Width="80" Margin="5"/>
+                        <Label Content="Matthew"/>
+                    </StackPanel>
+                    <Grid Grid.Row="1" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Text="12345 Customer Inc." BorderBrush="Black" Margin="5" Grid.Column="0"/>
+                        <Button Content="Search" Margin="5" Grid.Column="1" Width="50"/>
+                    </Grid>
+                    <TextBox IsEnabled="False" Text="Salesman ID" Grid.Row="2" Grid.Column="1"/>
+                </Grid>
+            </Border>
+            <!-- Other information not needed as per user -->
+            <Border Grid.Column="1">
+                <!-- Placeholder for other info -->
+            </Border>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <GroupBox Header="Customer Info" Grid.Column="0" Margin="10,5,60,5" BorderBrush="Black"  BorderThickness="1">
+                <TextBox Text="123 Customer Ln" Height="130" BorderBrush="Black"  BorderThickness="1"/>
+            </GroupBox>
+            <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1" Height="30" VerticalAlignment="Top" Margin="0,15,30,30">
+                <!-- Phone and Fax Section -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" HorizontalAlignment="Center" Orientation="Horizontal">
+                        <Label Content="Phone"/>
+                        <Label/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" HorizontalAlignment="Center" Orientation="Horizontal" >
+                        <Label Content="Fax"/>
+                        <Label/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+        <Border Grid.Row="3" Margin="20" Height="30" MaxWidth="500" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="Black" BorderThickness="1">
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Authorized Buyers"/>
+                <ComboBox Margin="10,5,10,5" Width="200"/>
+            </StackPanel>
+        </Border>
+        <Grid Grid.Row="4" Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="300"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="8*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="3*"/>
                 </Grid.ColumnDefinitions>
-
-                <TextBlock Text="{Binding TodayDate, StringFormat='Date: {0:MM/dd/yyyy}'}" Margin="5"/>
-                <TextBlock Text="{Binding TodayDate, StringFormat='Time: {0:HH:mm:ss}'}" Margin="5" Grid.Column="1" HorizontalAlignment="Right"/>
+                <TextBlock Text="Part #" Grid.Column="0" FontWeight="Bold"/>
+                <TextBlock Text="Description" Grid.Column="1" FontWeight="Bold"/>
+                <TextBlock Text="Quantity" Grid.Column="2" FontWeight="Bold"/>
+                <TextBlock Text="Price" Grid.Column="3" FontWeight="Bold"/>
+                <TextBlock Text="Total" Grid.Column="4" FontWeight="Bold"/>
             </Grid>
+            <ListView Grid.Row="1" VerticalAlignment="Top" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="4*"/>
+                                <ColumnDefinition Width="8*"/>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="3*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding PartNumber}" Grid.Column="0"/>
+                            <TextBlock Text="{Binding Description}" Grid.Column="1"/>
+                            <TextBlock Text="{Binding Quantity}" Grid.Column="2"/>
+                            <TextBlock Text="{Binding Price}" Grid.Column="3"/>
+                            <TextBlock Text="{Binding Total}" Grid.Column="4"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
 
 
-            <TextBox Text="{Binding Invoice.EmployeeId, UpdateSourceTrigger=PropertyChanged}" ToolTip="Employee ID" Margin="0,0,0,5"/>
-            <TextBox Text="{Binding Invoice.CustomerId, UpdateSourceTrigger=PropertyChanged}" ToolTip="Customer ID" Margin="0,0,0,5"/>
-            <TextBox Text="{Binding Invoice.SalesmanID, UpdateSourceTrigger=PropertyChanged}" ToolTip="Salesman ID" Margin="0,0,0,5"/>
-            <TextBox Text="{Binding Invoice.AuthorizedBuyer, UpdateSourceTrigger=PropertyChanged}" ToolTip="Authorized Buyer" Margin="0,0,0,5"/>
-            <TextBox Text="{Binding Invoice.PurchaseOrder, UpdateSourceTrigger=PropertyChanged}" ToolTip="Purchase Order" Margin="0,0,0,5"/>
-        </StackPanel>
-
-        <DataGrid Grid.Row="1" ItemsSource="{Binding Invoice.PartsList}" AutoGenerateColumns="False" CanUserAddRows="True" Margin="0,5,0,0">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Part" Binding="{Binding Key, UpdateSourceTrigger=PropertyChanged}"/>
-                <DataGridTextColumn Header="Quantity" Binding="{Binding Value, UpdateSourceTrigger=PropertyChanged}"/>
-                <!-- Add more columns as needed -->
-            </DataGrid.Columns>
-        </DataGrid>
-
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,0,0">
-            <Button Command="{Binding SaveCommand}" Content="Save Invoice" Margin="5"/>
-            <!-- Add other buttons for different actions here -->
-        </StackPanel>
+        <Grid Grid.Row="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="8*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <!-- Input for Part Number, Description, Quantity, and Price -->
+            <StackPanel Grid.Column="0" Width="auto">
+                <Label Content="Part Number" HorizontalAlignment="Center"/>
+                <TextBox Width="auto" Margin="10,5,10,5" BorderBrush="Black"  BorderThickness="1"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1" >
+                <Label Content="Description" HorizontalAlignment="Center" IsEnabled="False"/>
+                <TextBox Width="auto" Margin="10,5,10,5" BorderBrush="Black"  BorderThickness="1"/>
+            </StackPanel>
+            <StackPanel Grid.Column="3" >
+                <Label Content="Quantity" HorizontalAlignment="Center"/>
+                <TextBox Width="auto" Margin="10,5,10,5" BorderBrush="Black"  BorderThickness="1"/>
+            </StackPanel>
+            <StackPanel Grid.Column="4" >
+                <Label Content="Price" HorizontalAlignment="Center"/>
+                <TextBox Width="auto" Margin="10,5,10,5" BorderBrush="Black"  BorderThickness="1"/>
+            </StackPanel>
+            <!-- Subtotal Section -->
+            <StackPanel Grid.Column="10" Orientation="Horizontal" VerticalAlignment="Bottom">
+                <Label Content="Subtotal"/>
+                <Label Content="$0.00"/>
+                <Button Content="Add to Order"
+                    Width="Auto"
+                    Height="Auto"
+                    Margin="10,5,10,5"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>
