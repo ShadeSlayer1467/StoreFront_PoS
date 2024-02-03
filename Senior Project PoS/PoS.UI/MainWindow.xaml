@@ -3,10 +3,52 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:PoS.UI.ViewModel"
         xmlns:local="clr-namespace:PoS.UI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="MainWindow" Width="800" Height="450" >
+    <Window.DataContext>
+        <vm:InvoiceViewModel/>
+    </Window.DataContext>
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="5">
+            <TextBox Text="{Binding Invoice.InvoiceNumber, UpdateSourceTrigger=PropertyChanged}" ToolTip="Invoice Number" Margin="0,0,0,5"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="{Binding TodayDate, StringFormat='Date: {0:MM/dd/yyyy}'}" Margin="5"/>
+                <TextBlock Text="{Binding TodayDate, StringFormat='Time: {0:HH:mm:ss}'}" Margin="5" Grid.Column="1" HorizontalAlignment="Right"/>
+            </Grid>
+
+
+            <TextBox Text="{Binding Invoice.EmployeeId, UpdateSourceTrigger=PropertyChanged}" ToolTip="Employee ID" Margin="0,0,0,5"/>
+            <TextBox Text="{Binding Invoice.CustomerId, UpdateSourceTrigger=PropertyChanged}" ToolTip="Customer ID" Margin="0,0,0,5"/>
+            <TextBox Text="{Binding Invoice.SalesmanID, UpdateSourceTrigger=PropertyChanged}" ToolTip="Salesman ID" Margin="0,0,0,5"/>
+            <TextBox Text="{Binding Invoice.AuthorizedBuyer, UpdateSourceTrigger=PropertyChanged}" ToolTip="Authorized Buyer" Margin="0,0,0,5"/>
+            <TextBox Text="{Binding Invoice.PurchaseOrder, UpdateSourceTrigger=PropertyChanged}" ToolTip="Purchase Order" Margin="0,0,0,5"/>
+        </StackPanel>
+
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Invoice.PartsList}" AutoGenerateColumns="False" CanUserAddRows="True" Margin="0,5,0,0">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Part" Binding="{Binding Key, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="Quantity" Binding="{Binding Value, UpdateSourceTrigger=PropertyChanged}"/>
+                <!-- Add more columns as needed -->
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,0,0">
+            <Button Command="{Binding SaveCommand}" Content="Save Invoice" Margin="5"/>
+            <!-- Add other buttons for different actions here -->
+        </StackPanel>
     </Grid>
 </Window>
