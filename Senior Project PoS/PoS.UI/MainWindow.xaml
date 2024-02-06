@@ -12,7 +12,7 @@
         <vm:InvoiceViewModel/>
     </Window.DataContext>
 
-    <Grid PreviewGotKeyboardFocus="Grid_PreviewGotKeyboardFocus">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>

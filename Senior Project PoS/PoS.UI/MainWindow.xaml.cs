@@ -21,13 +21,6 @@ namespace PoS.UI
     /// </summary>
     public partial class MainWindow : Window
     {
-        public enum FocusState
-        {
-            PartNumber,
-            PartQuantity,
-            PartPrice
-        }
-        private FocusState _focusState;
         public MainWindow()
         {
             InitializeComponent();
@@ -87,41 +80,17 @@ namespace PoS.UI
             {
                 case "PartNumberTextBox":
                     PartNumberTextBox.Clear();
-                    _focusState = FocusState.PartNumber;
                     return;
-                case "QuantityTextBox":
-                    _focusState = FocusState.PartQuantity;
-                    break;
-                case "PriceTextBox":
-                    _focusState = FocusState.PartPrice;
-                    break;
+                //case "QuantityTextBox":
+                //    break;
+                //case "PriceTextBox":
+                //    break;
                 default:
                     break;
             }
 
             textBox.SelectAll();
         }
-        private void Grid_PreviewGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-        {
-            if (e.NewFocus is TextBox targetTextBox)
-            {
-                bool shouldCancelFocus = false;
-
-                switch (_focusState)
-                {
-                    case FocusState.PartNumber:
-                        shouldCancelFocus = targetTextBox.Name != QuantityTextBox.Name;
-                        break;
-                    case FocusState.PartQuantity:
-                        shouldCancelFocus = targetTextBox.Name != PriceTextBox.Name;
-                        break;
-                }
-
-                if (shouldCancelFocus) e.OldFocus.Focus();
-
-            }
-        }
-
     }
 
 }
