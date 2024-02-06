@@ -11,9 +11,17 @@ namespace PoS.UI.DataModel
         public List<Part> Parts { get; set; }
         public InventoryManager()
         {
-            Parts = new List<Part>();
+            // adding parts for testing
+            //Parts = new List<Part>()
+            //{
+            //    new Part { PartNumber = "1234", Description = "Part 1", Price = 10.00m, Quantity = 10 },
+            //    new Part { PartNumber = "5678", Description = "Part 2", Price = 20.00m, Quantity = 20 },
+            //    new Part { PartNumber = "91011", Description = "Part 3", Price = 30.00m, Quantity = 30 },
+            //    new Part { PartNumber = "121314", Description = "Part 4", Price = 40.00m, Quantity = 40 },
+            //    new Part { PartNumber = "151617", Description = "Part 5", Price = 50.00m, Quantity = 50 },
+            //};
         }
-        public void AddPart(string partNumber, string description, decimal price, int quantity)
+        public void AddPartToDatabase(string partNumber, string description, decimal price, int quantity)
         {
             Parts.Add(new Part
             {
@@ -23,14 +31,14 @@ namespace PoS.UI.DataModel
                 Quantity = quantity
             });
         }
-        public void UpdatePart(string partNumber, string description, decimal price, int quantity)
+        public void UpdatePartInformation(string partNumber, string description, decimal price, int quantity)
         {
             var existingPart = Parts.Find(p => p.PartNumber == partNumber);
             existingPart.Description = description;
             existingPart.Price = price;
             existingPart.Quantity = quantity;
         }
-        public void RemovePart(string partNumber)
+        public void RemovePartFromDatabase(string partNumber)
         {
             Parts.RemoveAll(p => p.PartNumber == partNumber);
         }
@@ -38,6 +46,11 @@ namespace PoS.UI.DataModel
         {
             var existingPart = Parts.Find(p => p.PartNumber == partNumber);
             existingPart.Quantity += quantity;
+        }
+        public Part GetPartInfo(string partNumber)
+        {
+            var part = Parts.Find(p => p.PartNumber == partNumber);
+            return part;
         }
         public string Print()
         {

@@ -15,7 +15,7 @@ namespace UnitTestProject
             var initialCount = manager.Parts.Count;
 
             // Act
-            manager.AddPart("001", "Test Part", 10.00m, 5);
+            manager.AddPartToDatabase("001", "Test Part", 10.00m, 5);
 
             // Assert
             Assert.AreEqual(initialCount + 1, manager.Parts.Count);
@@ -26,9 +26,9 @@ namespace UnitTestProject
         {
             // Arrange
             var manager = new InventoryManager();
-            manager.AddPart("001", "Test Part", 10.00m, 5);
+            manager.AddPartToDatabase("001", "Test Part", 10.00m, 5);
             // Act
-            manager.UpdatePart("001", "Updated Part", 15.00m, 10);
+            manager.UpdatePartInformation("001", "Updated Part", 15.00m, 10);
             var part = manager.Parts.Find(p => p.PartNumber == "001");
             // Assert
             Assert.AreEqual("Updated Part", part.Description);
@@ -41,11 +41,11 @@ namespace UnitTestProject
         {
             // Arrange
             var manager = new InventoryManager();
-            manager.AddPart("001", "Test Part", 10.00m, 5);
+            manager.AddPartToDatabase("001", "Test Part", 10.00m, 5);
             var initialCount = manager.Parts.Count;
 
             // Act
-            manager.RemovePart("001");
+            manager.RemovePartFromDatabase("001");
 
             // Assert
             Assert.AreEqual(initialCount - 1, manager.Parts.Count);
@@ -56,7 +56,7 @@ namespace UnitTestProject
         {
             // Arrange
             var manager = new InventoryManager();
-            manager.AddPart("001", "Test Part", 10.00m, 5);
+            manager.AddPartToDatabase("001", "Test Part", 10.00m, 5);
 
             // Act
             manager.AddPartQuantity("001", 3);
@@ -71,7 +71,7 @@ namespace UnitTestProject
         {
             // Arrange
             var manager = new InventoryManager();
-            manager.AddPart("001", "Test Part", 10.00m, 5);
+            manager.AddPartToDatabase("001", "Test Part", 10.00m, 5);
 
             // Act
             var result = manager.Print();

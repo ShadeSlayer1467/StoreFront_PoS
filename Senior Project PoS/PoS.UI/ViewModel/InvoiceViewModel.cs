@@ -2,77 +2,122 @@
 using PoS.UI.SaveData;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace PoS.UI.ViewModel
 {
     public class InvoiceViewModel : INotifyPropertyChanged
     {
-        private Invoice _invoice;
-        private InventoryManager _inventoryManager;
-        public DateTime TodayDate { get; set; }
-
-        public Invoice Invoice
-        {
-            get => _invoice;
-            set
-            {
-                _invoice = value;
-                OnPropertyChanged(nameof(Invoice));
-            }
-        }
-
-        // Assuming your InventoryManager is also needed in the context of InvoiceViewModel
-        public InventoryManager InventoryManager
-        {
-            get => _inventoryManager;
-            set
-            {
-                _inventoryManager = value;
-                OnPropertyChanged(nameof(InventoryManager));
-            }
-        }
-
-        public ICommand SaveInvoiceCommand { get; private set; }
-
         public event PropertyChangedEventHandler PropertyChanged;
-
-        public InvoiceViewModel()
-        {
-            // Initialize InventoryManager and Invoice
-            var db = new JsonDatabase();
-            _inventoryManager = db.GetInventoryManager(); // Load inventory
-            _invoice = new Invoice(); // Initialize a new invoice, could also be loaded
-
-            TodayDate = DateTime.Now;
-
-            SaveInvoiceCommand = new RelayCommand(SaveInvoice);
-        }
-
-        private void SaveInvoice(object parameter)
-        {
-            // Save logic here, for example:
-            // You might want to save the Invoice to a file or database
-            // This is just a placeholder to demonstrate the concept
-            System.Diagnostics.Debug.WriteLine("Invoice saved!");
-
-            System.Diagnostics.Debug.WriteLine(_invoice.Print());
-        }
-
-        protected void OnPropertyChanged(string propertyName)
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        private InventoryManager _inventoryManager;
+        private Invoice _invoice;
+        private InvoiceViewProperties _invoiceViewProperties;
+        public InvoiceViewProperties InvoiceViewProperties
+        {
+            get { return _invoiceViewProperties; }
+            set
+            {
+                _invoiceViewProperties = value;
+                OnPropertyChanged();
+            }
+        }
 
-        // Additional functionality as needed, for example:
-        // Methods to add, update, remove parts from the Invoice.PartsList
-        // Methods to interact with InventoryManager, like adding or removing stock as invoices are processed
+        public ICommand AddOrder { get; set; }
+        public ICommand UpdatePartInfoCommand { get; private set; }
+
+        public InvoiceViewModel()
+        {
+            _invoice = new Invoice();
+            //InvoiceViewProperties = new InvoiceViewProperties(_invoice)
+            //{
+            //    EmployeeID = 1456,
+            //    EmployeeName = "Matthew Read",
+            //    CustomerID = 0,
+            //    CustomerName = "CASH CASH CASH",
+            //    SalesmanID = 0,
+            //    CustomerInfo = "Walk in Cash Customer",
+            //    PhoneNumber = "",
+            //    Fax = "",
+            //    AuthorizedBuyers = new List<string> { },
+            //    SelectedAuthorizedBuyer = "",
+
+            //    PartsList = new List<Part>(),
+
+            //    PartNumber = "",
+            //    PartDescription = "",
+            //    PartQuantity = "",
+            //    PartPrice = "",
+            //    SubTotal = 0
+            //};
+            InvoiceViewProperties = new InvoiceViewProperties(_invoice)
+            {
+                EmployeeID = 9999,
+                EmployeeName = "Test",
+                CustomerID = 9999,
+                CustomerName = "Test",
+                SalesmanID = 9999,
+                CustomerInfo = "Test",
+                PhoneNumber = "Test",
+                Fax = "Test",
+                AuthorizedBuyers = new List<string> { "Test" },
+                SelectedAuthorizedBuyer = "Test1",
+
+                PartsList = new ObservableCollection<InvoiceViewProperties.InvoicePart>(),
+
+                PartNumber = "Test",
+                PartDescription = "Test",
+                PartQuantity = "Test",
+                PartPrice = "Test",
+                SubTotal = 9999
+            };
+            _inventoryManager = new JsonDatabase().GetInventoryManager();
+
+            AddOrder = new RelayCommand(AddOrderExecute);
+            UpdatePartInfoCommand = new RelayCommand(PartNumberEnterKeyDown);
+        }
+        private void AddOrderExecute(object obj)
+        {
+            _invoice.Print();
+        }
+        private void PartNumberEnterKeyDown(object partNumber)
+        {
+            var part = _inventoryManager.GetPartInfo(partNumber?.ToString());
+            if (part != null)
+            {
+                InvoiceViewProperties.PartDescription = part.Description;
+                InvoiceViewProperties.PartPrice = part.Price.ToString();
+                OnPropertyChanged(nameof(InvoiceViewProperties));
+            }
+        }
+        public void AddPartToInvoice()
+        {
+            InvoiceViewProperties.PartsList.Add(new InvoiceViewProperties.InvoicePart()
+            {
+                PartNumber = InvoiceViewProperties.PartNumber,
+                Description = InvoiceViewProperties.PartDescription,
+                Price = Convert.ToDecimal(InvoiceViewProperties.PartPrice),
+                Quantity = Convert.ToDecimal(InvoiceViewProperties.PartQuantity),
+                Total = Convert.ToDecimal(InvoiceViewProperties.PartPrice) * Convert.ToDecimal(InvoiceViewProperties.PartQuantity)
+            });
+            InvoiceViewProperties.PartNumber = "";
+            InvoiceViewProperties.PartDescription = "";
+            InvoiceViewProperties.PartQuantity = "";
+            InvoiceViewProperties.PartPrice = "";
+
+            InvoiceViewProperties.SubTotal = Math.Round(InvoiceViewProperties.PartsList.Sum(x => x.Total), 2);
+            OnPropertyChanged(nameof(InvoiceViewProperties));
+        }
     }
-
-    
 }
