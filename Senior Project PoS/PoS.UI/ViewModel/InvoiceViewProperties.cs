@@ -18,7 +18,6 @@ namespace PoS.UI.ViewModel
             public decimal Quantity { get; set; }
             public decimal Total { get; set; }
         }
-        private Invoice Invoice { get; set; }
         public int EmployeeID { get; set; }
         public string EmployeeName { get; set; }
         public int CustomerID { get; set; }
@@ -38,9 +37,8 @@ namespace PoS.UI.ViewModel
         public string PartPrice { get; set; }
         public decimal SubTotal { get; set; }
 
-        public InvoiceViewProperties(Invoice invoice)
+        public InvoiceViewProperties()
         {
-            Invoice = invoice;
             PartsList = new ObservableCollection<InvoicePart>();
         }
 

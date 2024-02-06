@@ -22,7 +22,6 @@ namespace PoS.UI.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         private InventoryManager _inventoryManager;
-        private Invoice _invoice;
         private InvoiceViewProperties _invoiceViewProperties;
         public InvoiceViewProperties InvoiceViewProperties
         {
@@ -35,11 +34,9 @@ namespace PoS.UI.ViewModel
         }
 
         public ICommand AddOrder { get; set; }
-        public ICommand UpdatePartInfoCommand { get; private set; }
 
         public InvoiceViewModel()
         {
-            _invoice = new Invoice();
             //InvoiceViewProperties = new InvoiceViewProperties(_invoice)
             //{
             //    EmployeeID = 1456,
@@ -61,7 +58,7 @@ namespace PoS.UI.ViewModel
             //    PartPrice = "",
             //    SubTotal = 0
             //};
-            InvoiceViewProperties = new InvoiceViewProperties(_invoice)
+            InvoiceViewProperties = new InvoiceViewProperties()
             {
                 EmployeeID = 9999,
                 EmployeeName = "Test",
@@ -85,13 +82,14 @@ namespace PoS.UI.ViewModel
             _inventoryManager = new JsonDatabase().GetInventoryManager();
 
             AddOrder = new RelayCommand(AddOrderExecute);
-            UpdatePartInfoCommand = new RelayCommand(PartNumberEnterKeyDown);
         }
         private void AddOrderExecute(object obj)
         {
-            _invoice.Print();
+            //TODO: Implement Invoice Manager for transaction number
+            var _invoice = new Invoice(_invoiceViewProperties, new Random().Next(1,10000));
+            Console.WriteLine(_invoice.Print());
         }
-        private void PartNumberEnterKeyDown(object partNumber)
+        public bool PartNumberEnterKeyDown(object partNumber)
         {
             var part = _inventoryManager.GetPartInfo(partNumber?.ToString());
             if (part != null)
@@ -99,7 +97,10 @@ namespace PoS.UI.ViewModel
                 InvoiceViewProperties.PartDescription = part.Description;
                 InvoiceViewProperties.PartPrice = part.Price.ToString();
                 OnPropertyChanged(nameof(InvoiceViewProperties));
+                return true;
             }
+            //TODO implement adding parts to inventory
+            return false;
         }
         public void AddPartToInvoice()
         {

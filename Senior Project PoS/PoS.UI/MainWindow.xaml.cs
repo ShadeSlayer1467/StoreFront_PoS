@@ -21,6 +21,13 @@ namespace PoS.UI
     /// </summary>
     public partial class MainWindow : Window
     {
+        public enum FocusState
+        {
+            PartNumber,
+            PartQuantity,
+            PartPrice
+        }
+        private FocusState _focusState;
         public MainWindow()
         {
             InitializeComponent();
@@ -31,10 +38,19 @@ namespace PoS.UI
             {
                 var vm = (InvoiceViewModel)this.DataContext;
                 var partNumber = ((TextBox)sender).Text;
-                vm.UpdatePartInfoCommand.Execute(partNumber);
-                QuantityTextBox.Clear();
-                QuantityTextBox.Text = "1.00";
-                QuantityTextBox.Focus();
+                bool partExists = vm.PartNumberEnterKeyDown(partNumber);
+
+                if (partExists)
+                {
+                    QuantityTextBox.Clear();
+                    QuantityTextBox.Text = "1.00";
+                    QuantityTextBox.Focus();
+                }
+                else
+                {
+                    PartNumberTextBox.Clear();
+                    PartNumberTextBox.Focus();
+                }
             }
         }
         private void QuantityTextBox_KeyDown(object sender, KeyEventArgs e)
@@ -71,17 +87,41 @@ namespace PoS.UI
             {
                 case "PartNumberTextBox":
                     PartNumberTextBox.Clear();
+                    _focusState = FocusState.PartNumber;
                     return;
-                //case "QuantityTextBox":
-                //    break;
-                //case "PriceTextBox":
-                //    break;
+                case "QuantityTextBox":
+                    _focusState = FocusState.PartQuantity;
+                    break;
+                case "PriceTextBox":
+                    _focusState = FocusState.PartPrice;
+                    break;
                 default:
                     break;
             }
 
             textBox.SelectAll();
         }
+        private void Grid_PreviewGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            if (e.NewFocus is TextBox targetTextBox)
+            {
+                bool shouldCancelFocus = false;
+
+                switch (_focusState)
+                {
+                    case FocusState.PartNumber:
+                        shouldCancelFocus = targetTextBox.Name != QuantityTextBox.Name;
+                        break;
+                    case FocusState.PartQuantity:
+                        shouldCancelFocus = targetTextBox.Name != PriceTextBox.Name;
+                        break;
+                }
+
+                if (shouldCancelFocus) e.OldFocus.Focus();
+
+            }
+        }
+
     }
 
 }

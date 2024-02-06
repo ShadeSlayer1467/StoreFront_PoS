@@ -61,7 +61,7 @@ namespace UnitTestProject
                 Date = new DateTime(2024, 1, 1),
                 EmployeeId = 1,
                 CustomerId = 2,
-                SalesmanID = 3,
+                SalesmanId = 3,
                 AuthorizedBuyer = "John Doe",
                 PurchaseOrder = "PO123456",
                 SubTotal = 100.00m,

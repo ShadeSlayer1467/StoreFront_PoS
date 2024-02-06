@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PoS.UI.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,7 @@ namespace PoS.UI.DataModel
         public int Id { get; set; }
         public int EmployeeId { get; set; }
         public int CustomerId { get; set; }
-        public int SalesmanID { get; set; }
+        public int SalesmanId { get; set; }
         public string AuthorizedBuyer { get; set; }
         public List<KeyValuePair<string, int>> PartsList { get; set; }
 
@@ -27,6 +28,26 @@ namespace PoS.UI.DataModel
         {
             PartsList = new List<KeyValuePair<string, int>>();
         }
+
+        public Invoice(InvoiceViewProperties invoiceViewProperties, int invoiceNumber)
+        {
+            EmployeeId = invoiceViewProperties.EmployeeID;
+            CustomerId = invoiceViewProperties.CustomerID;
+            SalesmanId = invoiceViewProperties.SalesmanID;
+            AuthorizedBuyer = invoiceViewProperties.SelectedAuthorizedBuyer;
+            PartsList = new List<KeyValuePair<string, int>>();
+            foreach (var part in invoiceViewProperties.PartsList)
+            {
+                PartsList.Add(new KeyValuePair<string, int>(part.PartNumber, (int)part.Quantity));
+            }
+            SubTotal = invoiceViewProperties.SubTotal;
+            Tax = 0;
+            Total = SubTotal + Tax;
+            Date = DateTime.Now;
+            InvoiceNumber = invoiceNumber;
+            PurchaseOrder = "N/A";
+        }
+
         // add a part to the invoice
         public void AddPart(string part, int quantity)
         {
@@ -52,13 +73,13 @@ namespace PoS.UI.DataModel
             sb.AppendLine($"Date: {Date}");
             sb.AppendLine($"Employee ID: {EmployeeId}");
             sb.AppendLine($"Customer ID: {CustomerId}");
-            sb.AppendLine($"Salesman ID: {SalesmanID}");
+            sb.AppendLine($"Salesman ID: {SalesmanId}");
             sb.AppendLine($"Authorized Buyer: {AuthorizedBuyer}");
             sb.AppendLine($"Purchase Order: {PurchaseOrder}");
             sb.AppendLine("Parts:");
             foreach (var part in PartsList)
             {
-                sb.AppendLine($"{part.Key} - {part.Value}");
+                sb.AppendLine($"{part.Value} of {part.Key}");
             }
             sb.AppendLine($"Subtotal: {SubTotal}");
             sb.AppendLine($"Tax: {Tax}");
