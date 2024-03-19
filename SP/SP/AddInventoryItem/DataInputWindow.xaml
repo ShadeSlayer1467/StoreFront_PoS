@@ -1,0 +1,30 @@
+﻿<Window x:Class="SP.AddInventoryItem.DataInputWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SP.AddInventoryItem"
+        mc:Ignorable="d"
+        Title="Data Input" Height="400" Width="400">
+    <Grid>
+        <!-- Define your UI elements for input here -->
+        <StackPanel Margin="10">
+            <Label Content="Part Number:"/>
+            <TextBox x:Name="PartNumberTextBox"/>
+            <Label Content="Description:"/>
+            <TextBox x:Name="DescriptionTextBox"/>
+            <Label Content="Price:"/>
+            <TextBox x:Name="PriceTextBox"/>
+            <Label Content="Quantity:"/>
+            <TextBox x:Name="QuantityTextBox"/>
+            <Label Content="Stock Level:"/>
+            <TextBox x:Name="StockLevelTextBox"/>
+            <Label Content="Minimum Required:"/>
+            <TextBox x:Name="MinimumRequiredTextBox"/>
+            <Label Content="Location:"/>
+            <TextBox x:Name="LocationTextBox"/>
+            <Label Content=""/>
+            <Button Content="Submit" Click="SubmitButton_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

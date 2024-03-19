@@ -1,0 +1,226 @@
+﻿<Window x:Class="SP.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:SP.ViewModel"
+        xmlns:local="clr-namespace:SP"
+        mc:Ignorable="d"
+        Title="MainWindow" Width="1280" Height="960" >
+    <Window.DataContext>
+        <vm:InvoiceViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="0">
+            <MenuItem Header="Other Functions"/>
+            <MenuItem Header="LogOut"/>
+            <MenuItem Header="Catalog"/>
+            <MenuItem Header="Help"/>
+        </Menu>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <!-- Employee and Customer Section -->
+            <Border Margin="10" BorderBrush="Black" BorderThickness="1">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Label Content="Employee" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right"/>
+                    <Label Content="Customer" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right"/>
+                    <Label Content="SalesPerson" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right"/>
+
+                    <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1">
+                        <TextBox IsEnabled="False" Text="{Binding InvoiceViewProperties.EmployeeID}" Width="80" Margin="5"/>
+                        <Label Content="{Binding InvoiceViewProperties.EmployeeName}"/>
+                    </StackPanel>
+                    <Grid Grid.Row="1" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox x:Name="CustomerIDName" 
+                                 Text="{Binding InvoiceViewProperties.CustomerName}" 
+                                 BorderBrush="Black" Margin="5" Grid.Column="0" GotFocus="CustomerId_GotFocus"/>
+                        <!---<Button Content="Search" Margin="5" Grid.Column="1" Width="50"/>-->
+                    </Grid>
+                    <TextBox IsEnabled="False" Text="{Binding InvoiceViewProperties.SalesmanID}" Grid.Row="2" Grid.Column="1"/>
+                </Grid>
+            </Border>
+            <!-- Other information not needed as per user -->
+            <Border Grid.Column="1">
+                <!-- Placeholder for other info -->
+            </Border>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <GroupBox Header="Customer Info" Grid.Column="0" Margin="10,5,60,5" BorderBrush="Black"  BorderThickness="1">
+                <TextBox Text="{Binding InvoiceViewProperties.CustomerInfo}" 
+                         Height="130" BorderBrush="Black"  BorderThickness="1"
+                         IsEnabled="False">
+                    <TextBox.Template>
+                        <ControlTemplate TargetType="TextBox">
+                            <Border Background="White" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                <ScrollViewer x:Name="PART_ContentHost" />
+                            </Border>
+                        </ControlTemplate>
+                    </TextBox.Template>
+                    <TextBox.Style>
+                        <Style TargetType="TextBox">
+                            <Style.Triggers>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Foreground" Value="Black"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+            </GroupBox>
+            <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1" Height="30" VerticalAlignment="Top" Margin="0,15,30,30">
+                <!-- Phone and Fax Section -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" HorizontalAlignment="Center" Orientation="Horizontal">
+                        <Label Content="Phone"/>
+                        <Label Content="{Binding InvoiceViewProperties.PhoneNumber}" Grid.Column="0"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" HorizontalAlignment="Center" Orientation="Horizontal" >
+                        <Label Content="Fax"/>
+                        <Label Content="{Binding InvoiceViewProperties.Fax}" Grid.Column="1"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+        <Border Grid.Row="3" Margin="20" Height="35" MaxWidth="500" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="Black" BorderThickness="1">
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Authorized Buyers"/>
+                <ComboBox ItemsSource="{Binding InvoiceViewProperties.AuthorizedBuyers}" SelectedItem="{Binding InvoiceViewProperties.SelectedAuthorizedBuyer}" Margin="10,5,10,5" Width="200"/>
+            </StackPanel>
+        </Border>
+        <Grid Grid.Row="4" Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="300"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="8*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Part #" Grid.Column="0" FontWeight="Bold"/>
+                <TextBlock Text="Description" Grid.Column="1" FontWeight="Bold"/>
+                <TextBlock Text="Quantity" Grid.Column="2" FontWeight="Bold"/>
+                <TextBlock Text="Price" Grid.Column="3" FontWeight="Bold"/>
+                <TextBlock Text="Total" Grid.Column="4" FontWeight="Bold"/>
+            </Grid>
+            <ListView ItemsSource="{Binding InvoiceViewProperties.PartsList}" Grid.Row="1" VerticalAlignment="Top" ScrollViewer.VerticalScrollBarVisibility="Visible" Height="300">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="4*"/>
+                                <ColumnDefinition Width="8*"/>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="3*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding PartNumber}" Grid.Column="0"/>
+                            <TextBlock Text="{Binding Description}" Grid.Column="1"/>
+                            <TextBlock Text="{Binding Quantity}" Grid.Column="2"/>
+                            <TextBlock Text="{Binding Price}" Grid.Column="3"/>
+                            <TextBlock Text="{Binding Total}" Grid.Column="4"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+
+
+        <Grid Grid.Row="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="8*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <!-- Input for Part Number, Description, Quantity, and Price -->
+            <StackPanel Grid.Column="0" Width="auto">
+                <Label Content="Part Number" HorizontalAlignment="Center"/>
+                <TextBox x:Name="PartNumberTextBox"
+                         Text="{Binding InvoiceViewProperties.PartNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                         Width="auto" Margin="10,5,10,5" BorderBrush="Black"  BorderThickness="1" 
+                         KeyDown="PartNumberTextBox_KeyDown"
+                         GotFocus="AddPart_GotFocus">
+                </TextBox>
+            </StackPanel>
+            <StackPanel Grid.Column="1" >
+                <Label Content="Description" HorizontalAlignment="Center" IsEnabled="False"/>
+                <TextBox x:Name="PartDescriptionTextBox"
+                         Text="{Binding InvoiceViewProperties.PartDescription, Mode=TwoWay}" 
+                         Width="auto" Margin="10,5,10,5" BorderBrush="Black"  BorderThickness="1"/>
+            </StackPanel>
+            <StackPanel Grid.Column="3" >
+                <Label Content="Quantity" HorizontalAlignment="Center"/>
+                <TextBox x:Name="QuantityTextBox"
+                         Text="{Binding InvoiceViewProperties.PartQuantity, Mode=TwoWay}" 
+                         Width="auto" Margin="10,5,10,5" BorderBrush="Black"  BorderThickness="1" 
+                         KeyDown="QuantityTextBox_KeyDown"
+                         GotFocus="AddPart_GotFocus"/>
+            </StackPanel>
+            <StackPanel Grid.Column="4" >
+                <Label Content="Price" HorizontalAlignment="Center"/>
+                <TextBox x:Name="PriceTextBox" Text="{Binding InvoiceViewProperties.PartPrice, Mode=TwoWay}" 
+                         Width="auto" Margin="10,5,10,5" BorderBrush="Black"  BorderThickness="1"
+                         KeyDown="PriceTextBox_KeyDown"
+                         GotFocus="AddPart_GotFocus"/>
+            </StackPanel>
+            <!-- Subtotal Section -->
+            <StackPanel Grid.Column="10" Orientation="Horizontal" VerticalAlignment="Bottom">
+                <Label Content="Subtotal"/>
+                <Label Content="{Binding InvoiceViewProperties.SubTotal, StringFormat='{}{0:C}'}"/>
+                <Button Content="Print Order"
+                    Width="Auto"
+                    Height="Auto"
+                    Margin="10,5,10,5"
+                    Command="{Binding AddOrder}"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
