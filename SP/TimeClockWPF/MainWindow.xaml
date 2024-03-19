@@ -7,7 +7,8 @@
         xmlns:local="clr-namespace:TimeClockWPF"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800"
-        ResizeMode="NoResize">
+        ResizeMode="NoResize"
+        Closing="Window_Closing">
     <Window.DataContext>
         <local:MainVM/>
     </Window.DataContext>
@@ -44,8 +45,9 @@
                                 HorizontalAlignment="Right"
                                 Margin="0,5,0,5">
                         <Label Content="Employee ID#" />
-                        <TextBox Text="{Binding EmployeeId, UpdateSourceTrigger=PropertyChanged}"
-                                 Width="140">
+                        <TextBox Name="EmpId"
+                                 Text="{Binding EmployeeId, UpdateSourceTrigger=PropertyChanged}"
+                                 Width="140" TextChanged="EmpId_TextChanged">
                             <TextBox.InputBindings>
                                 <KeyBinding Key="Enter" Command="{Binding IDLostFocus, Mode=TwoWay}" />
                             </TextBox.InputBindings>
@@ -55,9 +57,14 @@
                                 HorizontalAlignment="Right"
                                 Margin="0,5,0,5">
                         <Label Content="Password" />
-                        <PasswordBox Name="PasswordBox" 
+                        <PasswordBox Name="PasswordBox"
                                      Width="140" 
-                                     PasswordChanged="PasswordBox_PasswordChanged"/>
+                                     PasswordChanged="PasswordBox_PasswordChanged">
+                            <PasswordBox.InputBindings>
+                                <KeyBinding Key="Enter" Command="{Binding DataContext.ClockCommand, RelativeSource={RelativeSource AncestorType=Window}}" />
+                            </PasswordBox.InputBindings>
+                        </PasswordBox>
+
 
                     </StackPanel>
                     <StackPanel Orientation="Horizontal"
@@ -93,7 +100,7 @@
                     IsEnabled="{Binding IsEmployeeIdValid}"
                     Margin="10"
                     Padding="5,2,5,3"
-                    FontSize="20"/>
+                    FontSize="20" Click="Button_Click_1"/>
             <Button Grid.Column="1" 
                     Content="Change Password" 
                     Command="{Binding ChangePasswordCommand}" 

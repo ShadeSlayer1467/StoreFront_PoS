@@ -21,13 +21,22 @@ namespace TimeClockWPF
     public partial class MainWindow : Window
     {
         private MainVM vm;
-        public MainWindow()
+        private bool CheckLogin => vm.TimeSheetModel.CheckLogin(vm.EmployeeId, vm.Password);
+        public int EmployeeId { get; set; } 
+        public MainWindow(string EmployeeID = "-1")
         {
             InitializeComponent();
             vm = new MainVM();
             vm = DataContext as MainVM;
             vm.CloseFunc = Close;
             vm.PasswordFocus = PasswordBox.Focus;
+            if (EmployeeID != "-1")
+            {
+                vm.EmployeeId = EmployeeID;
+                EmpId.Focusable = false;
+            }
+
+            EmpId.Focus();
         }
         private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
@@ -40,6 +49,28 @@ namespace TimeClockWPF
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            vm = DataContext as MainVM;
+
+            if (CheckLogin)
+                EmployeeId = Int32.TryParse(vm.EmployeeId, out int result) ? result : -1;
+            else EmployeeId = -1;
+        }
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            vm = DataContext as MainVM;
+
+            if (CheckLogin)
+                EmployeeId = Int32.TryParse(vm.EmployeeId, out int result) ? result : -1;
+            else EmployeeId = -1;
+        }
+
+        private void EmpId_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
     }
 }

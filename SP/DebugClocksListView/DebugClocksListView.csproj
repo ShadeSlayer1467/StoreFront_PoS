@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6DC797B1-E9ED-4045-A07C-B169273D9EA4}</ProjectGuid>
+    <ProjectGuid>{48C5DD57-4A84-4333-A8C1-2FE7A0B44026}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>SP</RootNamespace>
-    <AssemblyName>SP</AssemblyName>
+    <RootNamespace>DebugClocksListView</RootNamespace>
+    <AssemblyName>DebugClocksListView</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -55,16 +58,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AddInventoryItem\DataInputWindow.xaml.cs">
-      <DependentUpon>DataInputWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ViewModel\InvoiceViewModel.cs" />
-    <Compile Include="ViewModel\InvoiceViewProperties.cs" />
-    <Compile Include="ViewModel\RelayCommand.cs" />
-    <Page Include="AddInventoryItem\DataInputWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -73,11 +66,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DataManipulators\DbManager.cs" />
-    <Compile Include="DataManipulators\InvoiceHandler.cs" />
-    <Compile Include="Data\Customer.cs" />
-    <Compile Include="Data\Invoice.cs" />
-    <Compile Include="Data\Part.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -101,6 +89,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -108,16 +97,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\PayrollLib\PayrollLib.csproj">
-      <Project>{84559b28-6368-40fb-be61-ca52124c877f}</Project>
-      <Name>PayrollLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TimeClockWPF\TimeClockWPF.csproj">
-      <Project>{c19bc0a3-28de-4a05-9ee4-b1614ff4c019}</Project>
-      <Name>TimeClockWPF</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

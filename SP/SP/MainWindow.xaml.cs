@@ -26,6 +26,8 @@ namespace SP
             InitializeComponent();
             //CustomerIDName.Focus();
             PartNumberTextBox.Focus();
+            var vm = (InvoiceViewModel)this.DataContext;
+            vm.RequestClose += ViewModel_RequestClose;
         }
         private void CustomerId_GotFocus(object sender, RoutedEventArgs e)
         {
@@ -99,10 +101,9 @@ namespace SP
 
             textBox.SelectAll();
         }
-
-        private void TextBox_GotFocus(object sender, RoutedEventArgs e)
+        private void ViewModel_RequestClose(object sender, EventArgs e)
         {
-
+            Close();
         }
     }
 }

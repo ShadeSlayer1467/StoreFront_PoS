@@ -18,7 +18,7 @@ namespace TimeClockWPF
 {
     public class MainVM : INotifyPropertyChanged
     {
-        private readonly PayRollModel TimeSheetModel = new PayRollModel();
+        public readonly PayRollModel TimeSheetModel = new PayRollModel();
         #region INotify
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -78,6 +78,7 @@ namespace TimeClockWPF
         public ICommand ChangePasswordCommand { get; set; }
         public ICommand ClockCommand { get; set; }
         public ICommand IDLostFocus { get; set; }
+        public ICommand PassLostFocus { get; set; }
         public ICommand PasswordEnterPressCommand { get; set; }
         
 
@@ -95,6 +96,7 @@ namespace TimeClockWPF
             ChangePasswordCommand = new RelayCommand(ChangePassword);
             ClockCommand = new RelayCommand(ChangeClock);
             IDLostFocus = new RelayCommand(CheckIfIdExists);
+            PassLostFocus = new RelayCommand(ChangeClock);
             Password = "";
         }
         public void CheckIfIdExists()

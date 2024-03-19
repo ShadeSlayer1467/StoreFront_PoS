@@ -9,6 +9,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -16,6 +17,10 @@ namespace SP.ViewModel
 {
     public class InvoiceViewModel : INotifyPropertyChanged
     {
+        public event EventHandler RequestClose; public void CloseWindow()
+        {
+            RequestClose?.Invoke(this, EventArgs.Empty);
+        }
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
@@ -34,14 +39,22 @@ namespace SP.ViewModel
         }
 
         public ICommand AddOrder { get; set; }
+        public ICommand LogOutCommand { get; set; }
 
         public InvoiceViewModel()
         {
+            int employeeID;
+            while (true)
+            {
+                var TimeClock = new TimeClockWPF.MainWindow();
+                TimeClock.ShowDialog();
 
-
+                employeeID = TimeClock.EmployeeId;
+                if (employeeID != -1) break;
+            }
             InvoiceViewProperties = new InvoiceViewProperties()
             {
-                EmployeeID = 1456,
+                EmployeeID = employeeID,
                 EmployeeName = "Matthew Read",
                 CustomerID = 0,
                 CustomerName = "CASH CASH CASH",
@@ -85,6 +98,7 @@ namespace SP.ViewModel
 
 
             AddOrder = new RelayCommand(AddOrderExecute);
+            LogOutCommand = new RelayCommand(LogOutExecute);
 
             
         }
@@ -120,6 +134,18 @@ namespace SP.ViewModel
             };
 
             return invoice;
+        }
+        private void LogOutExecute(object sender) 
+        {
+            while (true)
+            {
+                var TimeClock = new TimeClockWPF.MainWindow(InvoiceViewProperties.EmployeeID.ToString());
+                TimeClock.ShowDialog();
+
+                if (TimeClock.EmployeeId != -1) break;
+            }
+            //close window
+            CloseWindow();
         }
         private void AddOrderExecute(object obj)
         {

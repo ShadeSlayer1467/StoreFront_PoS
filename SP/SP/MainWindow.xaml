@@ -21,7 +21,7 @@
         </Grid.RowDefinitions>
         <Menu Grid.Row="0">
             <MenuItem Header="Other Functions"/>
-            <MenuItem Header="LogOut"/>
+            <MenuItem Header="LogOut" Command="{Binding LogOutCommand}"/>
             <MenuItem Header="Catalog"/>
             <MenuItem Header="Help"/>
         </Menu>

@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeClockWPF", "TimeClockWP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PayrollLib", "PayrollLib\PayrollLib.csproj", "{84559B28-6368-40FB-BE61-CA52124C877F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DebugClocksListView", "DebugClocksListView\DebugClocksListView.csproj", "{48C5DD57-4A84-4333-A8C1-2FE7A0B44026}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{84559B28-6368-40FB-BE61-CA52124C877F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{84559B28-6368-40FB-BE61-CA52124C877F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{84559B28-6368-40FB-BE61-CA52124C877F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48C5DD57-4A84-4333-A8C1-2FE7A0B44026}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48C5DD57-4A84-4333-A8C1-2FE7A0B44026}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48C5DD57-4A84-4333-A8C1-2FE7A0B44026}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48C5DD57-4A84-4333-A8C1-2FE7A0B44026}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
